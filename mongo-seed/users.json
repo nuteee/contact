@@ -1,0 +1,23 @@
+[
+  {
+    "_id": 0,
+    "Name": "X Y",
+    "ContactIdList": [
+      0,
+      3
+    ]
+  },
+  {
+    "_id": 1,
+    "Name": "Z Z",
+    "ContactIdList": [
+      0,
+      3
+    ]
+  },
+  {
+    "_id": 2,
+    "Name": "YY YY",
+    "ContactIdList": []
+  }
+]

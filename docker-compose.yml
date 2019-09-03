@@ -1,0 +1,38 @@
+version: '3.6'
+services:
+  mongodb:
+    image: mongo
+    container_name: mongo_dev
+    restart: always
+    ports:
+      - '27017:27017'
+    networks:
+      - dev
+
+  mongo-seed:
+    build: ./mongo-seed
+    container_name: mongo_seed
+    links:
+      - mongodb
+    restart: on-failure
+    depends_on:
+      - mongodb
+    networks:
+      - dev
+
+  app:
+    image: nute/contact
+    tty: true
+    ports:
+      - '14000:8080'
+    links:
+      - mongodb
+    depends_on:
+      - mongodb
+      - mongo-seed
+    networks:
+      - dev
+
+networks:
+  dev:
+    driver: bridge
