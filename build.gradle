@@ -57,4 +57,5 @@ dependencies {
 
 
     testCompile("org.springframework.boot:spring-boot-starter-test")
+    testCompile group: 'nl.jqno.equalsverifier', name: 'equalsverifier', version: '3.1.9'
 }

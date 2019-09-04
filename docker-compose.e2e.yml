@@ -23,7 +23,7 @@ services:
   contact-service:
     image: nute/contact
     ports:
-      - '14000:8080'
+      - '14001:8080'
     links:
       - mongodb
     depends_on:
@@ -35,10 +35,10 @@ services:
   contact-frontend:
     build:
       context: ./contact-frontend
-      dockerfile: Dockerfile
-    container_name: contact-frontend
+      dockerfile: Dockerfile.e2e
+    container_name: contact-frontend.e2e
     ports:
-      - '80:80'
+      - '4222:4200'
     depends_on:
       - contact-service
     networks:

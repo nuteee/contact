@@ -26,6 +26,14 @@ public class User {
         this.contactIdList = contactIdList;
     }
 
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
     public String getName() {
         return name;
     }
@@ -34,11 +42,21 @@ public class User {
         return contactIdList;
     }
 
+    public boolean addContact(Contact contact) {
+        return this.contactIdList.add(contact.getId());
+    }
+
+    public boolean removeContact(Contact contact) {
+        return this.contactIdList.remove(contact.getId());
+    }
+
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
+        if (this == o)
+            return true;
 
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof User))
+            return false;
 
         User user = (User) o;
 
@@ -50,10 +68,7 @@ public class User {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder(17, 37)
-                .append(name)
-                .append(contactIdList)
-                .toHashCode();
+        return new HashCodeBuilder().append(name).append(contactIdList).toHashCode();
     }
 
     @Override

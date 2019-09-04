@@ -24,17 +24,17 @@ public class Contact {
     @Field("Email")
     private final String email;
 
-    public Contact(String name, String phoneNumber, String email) throws InterruptedException {
+    public Contact(String name, String phoneNumber, String email) {
         this.name = Validate.notEmpty(name);
         this.phoneNumber = Validate.notEmpty(phoneNumber);
         this.email = validateEmail(email);
     }
 
-    private String validateEmail(String email) throws InterruptedException {
+    private String validateEmail(String email) {
         if (EmailValidator.getInstance().isValid(email)) {
             return email;
         } else {
-            throw new InterruptedException("Invalid email: " + email);
+            throw new RuntimeException("Invalid email: " + email);
         }
     }
 
@@ -60,9 +60,11 @@ public class Contact {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
+        if (this == o)
+            return true;
 
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof Contact))
+            return false;
 
         Contact other = (Contact) o;
 

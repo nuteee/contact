@@ -8,8 +8,12 @@ import com.nute.contact.repositories.ContactRepository;
 import com.nute.contact.repositories.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -27,7 +31,17 @@ public class ContactController {
         this.contactRepository = contactRepository;
     }
 
-    @GetMapping(value = "/{id}/contacts")
+    @GetMapping("/user")
+    public List<User> getUsers() {
+        return userRepository.findAll();
+    }
+
+    @GetMapping("/user/{id}")
+    public User getUser(@PathVariable("id") long userId) throws EntityNotFoundException {
+        return userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException("UserID not found: " + userId));
+    }
+
+    @GetMapping("/user/{id}/contacts")
     public List<Contact> getContactsForUser(@PathVariable("id") long userId) throws EntityNotFoundException {
         User user = userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException("UserID not found: " + userId));
 
@@ -36,4 +50,29 @@ public class ContactController {
 
         return contacts;
     }
+
+    @PutMapping("/user/{id}/contacts/add")
+    public User addContactToUser(@PathVariable("id") long userId, @RequestBody Contact contact) throws EntityNotFoundException {
+        User user = userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException("UserID not found: " + userId));
+
+        user.addContact(contact);
+
+        return userRepository.save(user);
+    }
+
+    @DeleteMapping("/user/{id}/contacts/delete")
+    public void deleteContactForUser(@PathVariable("id") long userId, @RequestBody Contact contact) throws EntityNotFoundException {
+        User user = userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException("UserID not found: " + userId));
+
+        user.removeContact(contact);
+
+        contactRepository.deleteById(contact.getId());
+    }
+
+    @PostMapping("/contacts/{id}/edit")
+    public Contact editContactOfUser(@PathVariable("id") long userId, @RequestBody Contact contact) {
+        return contactRepository.save(contact);
+    }
+
+
 }
