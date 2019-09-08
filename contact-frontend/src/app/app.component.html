@@ -1,13 +1,36 @@
+<h6>Selected user: {{selectedUserId}}</h6>
 
-
-
-
-
-
-
-
-
-
+<div>
+  <div class="row">
+    <app-contact-modal></app-contact-modal>
+  </div>
+  <div class="col-md-3">
+    <ng-select [items]="allUsers$ | async"
+               bindLabel="name"
+               autofocus
+               bindValue="id"
+               [(ngModel)]="selectedUserId"
+               (change)="updateUser()">
+    </ng-select>
+  </div>
+</div>
+<div>
+  <div class="col-md-12">
+    <ag-grid-angular id="contactGrid"
+                     style="height: 400px; width: 820px;"
+                     class="ag-theme-balham"
+                     editType="fullRow"
+                     animateRows="true"
+                     stopEditingWhenGridLosesFocus=true
+                     [columnDefs]="columnDefs"
+                     [rowData]="contactData$ | async"
+                     [singleClickEdit]="true"
+                     (gridReady)="onGridReady($event)"
+                     (rowValueChanged)="updateContact()"
+    >
+    </ag-grid-angular>
+  </div>
+</div>
 
 
 <router-outlet></router-outlet>
