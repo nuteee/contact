@@ -17,8 +17,7 @@ export class AppComponent implements OnInit {
   private gridApi;
   private gridColumnApi;
 
-  private columnDefs;
-  private rowSelection;
+  columnDefs;
 
   allUsers$: Observable<Array<User>>;
   contactData$: Observable<Array<Contact>>;
@@ -33,7 +32,6 @@ export class AppComponent implements OnInit {
       {headerName: "Email", field: "email", sortable: true, filter: true, editable: true}
     ];
 
-    this.rowSelection = "multiple";
   }
 
   ngOnInit(): void {
